@@ -290,23 +290,24 @@ int32_t main()
     // cin >> tt;
     while (tt--)
     {
-        int n, m;
+        int n;
         cin >> n;
         vector<int> v(n);
         cin >> v;
-        vector<int>idx(n,0);
-        for(int i=0;i<n;i++){
-            idx[v[i]-1]=i;
-        }
-        debug[i];
-        int cnt=0;
-        for(int i=1;i<n;i++){
-            if(idx[i]<idx[i-1]){
-                cnt++;
+        sort(v.begin(), v.end());
+        int cnt = 1;
+        for (int i = 0; i < n; i++)
+        {
+            if (v[i] <= cnt)
+            {
+                cnt += v[i];
+            }
+            else
+            {
+                break;
             }
         }
-        cout<<cnt<<endl;
-
+        cout << cnt << endl;
     }
     return 0;
 }
