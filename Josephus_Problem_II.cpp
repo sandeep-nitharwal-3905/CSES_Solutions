@@ -290,28 +290,22 @@ int32_t main()
     // cin >> tt;
     while (tt--)
     {
-        int n;
-        cin >> n;
-        vector<pair<pair<int, int>, int>> v(n);
+        int n, k;
+        cin >> n >> k;
+        pbds A;
+        for (int i = 1; i <= n; i++)
+        {
+            A.insert(i);
+        }
+        int curr = 0;
         for (int i = 0; i < n; i++)
         {
-            int x, y;
-            cin >> x >> y;
-            v[i].first.first = x;
-            v[i].first.second = y;
-            v[i].second = i;
+            curr = (curr + k) % (n - i);
+            auto it = A.find_by_order(curr);
+            cout << *it << " ";
+            A.erase(it);
         }
-        sort(v.begin(), v.end());
-        vector<int> ans1(n), ans2(n);
-        int minend = v[n - 1].first.second;
-        for (int i = n - 2; i >= 0; i--)
-        {
-            if (v[i].first.second >= minend)
-            {
-                ans1[v[i].second] = 1;
-            }
-        }
-        cout << ans1;
+        cout << endl;
     }
     return 0;
 }
