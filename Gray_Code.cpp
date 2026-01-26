@@ -282,18 +282,45 @@ ostream &operator<<(ostream &cout, vector<pair<typA, typB>> &v)
     return cout;
 }
 
+vector<string> solve(int n)
+{
+    if (n == 1)
+    {
+        return {"0", "1"};
+    }
+    vector<string> prev = solve(n - 1);
+    vector<string> rprev = prev;
+    reverse(rprev.begin(), rprev.end());
+    vector<string> ans;
+    for (int i = 0; i < prev.size(); i++)
+    {
+        ans.push_back("0");
+        ans[i] += prev[i];
+    }
+    for (int i = 0; i < rprev.size(); i++)
+    {
+        ans.push_back("1");
+        ans[i + prev.size()] += rprev[i];
+    }
+    return ans;
+}
+
 int32_t main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     int tt = 1;
-    cin >> tt;
+    // cin >> tt;
     while (tt--)
     {
-        int n, m;
+        int n;
         cin >> n;
-        vector<int> v(n);
-        cin >> v;
+        vector<string> ans = solve(n);
+        for (int i = 0; i < ans.size(); i++)
+        {
+            cout << ans[i] << endl;
+        }
+        cout << endl;
     }
     return 0;
 }
