@@ -14,7 +14,7 @@ using namespace __gnu_pbds;
 #define MX 1e9
 
 /*---------------------PB_DS---------------------*/
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
+typedef tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
 
 // int : is type of data to insert into tree
 // null_type : part of maping
@@ -282,31 +282,58 @@ ostream &operator<<(ostream &cout, vector<pair<typA, typB>> &v)
     return cout;
 }
 
+bool com(pair<pair<int, int>, int> &a, pair<pair<int, int>, int> &b)
+{
+    if (a.first.first != b.first.first)
+    {
+        return a.first.first < b.first.first;
+    }
+    return a.first.second > b.first.second;
+}
+
 int32_t main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     int tt = 1;
-    cin >> tt;
+    // cin >> tt;
     while (tt--)
     {
         int n;
         cin >> n;
-        vector<pair<int, int>> v(n);
-        cin >> v;
-        sort(v.begin(), v.end());
-        multiset<int> st;
-        st.insert(v[0].second);
-        int ans = 1;
+        vector<pair<pair<int, int>, int>> v(n);
         for (int i = 0; i < n; i++)
         {
-            auto it = st.upper_bound(v[i].first);
-            if (it != st.end())
-            {
-                st.erase(it);
-            }
-            st.insert(v[i].second);
+            v[i].second = i;
+            cin >> v[i].first.first;
+            cin >> v[i].first.second;
         }
+        sort(v.begin(), v.end(), com);
+        // debug(v);
+        pbds A, B;
+        vector<int> a(n), b(n);
+        for (int i = n - 1; i >= 0; i--)
+        {
+            int x = A.order_of_key(v[i].first.second + 1);
+            a[v[i].second] = x;
+            A.insert(v[i].first.second);
+        }
+        for (int i = 0; i < n; i++)
+        {
+            cout << a[i] << " ";
+        }
+        cout << endl;
+        for (int i = 0; i < n; i++)
+        {
+            int x = B.order_of_key(-v[i].first.second + 1);
+            b[v[i].second] = x;
+            B.insert(-v[i].first.second);
+        }
+        for (int i = 0; i < n; i++)
+        {
+            cout << b[i] << " ";
+        }
+        cout << endl;
     }
     return 0;
 }
