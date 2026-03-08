@@ -287,10 +287,44 @@ int32_t main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     int tt = 1;
-    cin >> tt;
+    // cin >> tt;
     while (tt--)
     {
-        
+        int n;
+        cin >> n;
+        vector<int> ans = {0, 6, 28, 96, 252};
+        if (n < 6)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                cout << ans[i] << endl;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                cout << ans[i] << endl;
+            }
+            int m = n;
+            for (int n = 6; n <= m; n++)
+            {
+                int tot = (n * n) - 1, len = 4 * n - 4, len2 = 4 * (n - 2) - 4;
+                int res = (n - 4) * (n - 4) * (tot - 8);
+                // debug(res);
+                res += (tot - 2) * 4;
+                // debug(res);
+                res += (tot - 3) * 6;
+                // debug(res);
+                res += (tot - 4) * (len - 10);
+                // debug(res);
+                res += (tot - 4) * 4;
+                // debug(res);
+                res += (tot - 6) * (len2 - 4);
+                // debug(res);
+                cout << (res / 2) + 1 << endl;
+            }
+        }
     }
     return 0;
 }
